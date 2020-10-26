@@ -347,7 +347,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   _playerRigid: {fileID: 76911503}
   _playerObj: {fileID: 76911501}
   IsAlive: 1
-  Force: 1000
+  Force: 500
 --- !u!4 &357180016
 Transform:
   m_ObjectHideFlags: 0
