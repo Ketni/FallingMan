@@ -66,7 +66,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private void Update()
     {
-        if (_isTouched)
+        if (_isTouched && _playerController.IsAlive)
             _playerController.Move(_direction);
     }
 
@@ -81,21 +81,24 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
-        _direction = new Vector2(0, 0);
-        _isTouched = false;
+        if (_playerController.IsAlive)
+        {
+            _direction = new Vector2(0, 0);
+            _isTouched = false;
 
-        cam = null;
-        if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
-            cam = canvas.worldCamera;
+            cam = null;
+            if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
+                cam = canvas.worldCamera;
 
-        Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
-        Vector2 radius = background.sizeDelta / 2;
-        input = (eventData.position - position) / (radius * canvas.scaleFactor);
-        FormatInput();
-        HandleInput(input.magnitude, input.normalized, radius, cam);
-        handle.anchoredPosition = input * radius * handleRange;
+            Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
+            Vector2 radius = background.sizeDelta / 2;
+            input = (eventData.position - position) / (radius * canvas.scaleFactor);
+            FormatInput();
+            HandleInput(input.magnitude, input.normalized, radius, cam);
+            handle.anchoredPosition = input * radius * handleRange;
 
-        _playerController.Move(input);
+            _playerController.Move(input);
+        }
     }
 
     protected virtual void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)

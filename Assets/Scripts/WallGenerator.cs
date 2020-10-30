@@ -12,32 +12,27 @@ public class WallGenerator : MonoBehaviour
 
     private void Start()
     {
-        //GameObject leftStartWall = LeftWallPrefabs[Random.Range(0, LeftWallPrefabs.Count)];
-        //Instantiate(leftStartWall, new Vector3(0 - 7, 0, 0), Quaternion.identity);
-        //_lastLeftBot = leftStartWall.GetComponent<WallSize>().BotSize;
-
         GameObject rightStartWall = RightWallPrefabs[Random.Range(0, RightWallPrefabs.Count)];
         Instantiate(rightStartWall, new Vector3(0 + 7, 0, 0), Quaternion.identity);
         _lastLeftBot = rightStartWall.GetComponent<WallSize>().BotSize;
 
-        GameObject leftStartWall = RightWallPrefabs[Random.Range(0, RightWallPrefabs.Count)];
-        Instantiate(leftStartWall, new Vector3(0 - 7, 0, 0), Quaternion.identity);
+        GameObject leftStartWall = Instantiate(LeftWallPrefabs[Random.Range(0, LeftWallPrefabs.Count)], new Vector3(0 - 7, 0, 0), Quaternion.identity);
+        leftStartWall.transform.GetChild(1).gameObject.SetActive(false);
         _lastRightBot = leftStartWall.GetComponent<WallSize>().BotSize;
 
         Generator(new Vector2(0, 0));
-
-        //kekWaitGitCheck;
     }
 
     public void Generator(Vector2 checkerPos)
     {
-        GameObject leftWall = Instantiate(CheckTopLeft(), new Vector3(-7, checkerPos.y - 10, 0), Quaternion.identity);
+        int offset = GetRandomOffset();
+        GameObject leftWall = Instantiate(CheckTopLeft(), new Vector3(-7 + offset, checkerPos.y - 10, 0), Quaternion.identity);
         _lastLeftBot = leftWall.GetComponent<WallSize>().BotSize;
-        GameObject rightWall = Instantiate(CheckTopRight(), new Vector3(7, checkerPos.y - 10, 0), Quaternion.identity);
+        GameObject rightWall = Instantiate(CheckTopRight(), new Vector3(7 + offset, checkerPos.y - 10, 0), Quaternion.identity);
         _lastRightBot = rightWall.GetComponent<WallSize>().BotSize;
 
-        Destroy(leftWall, 3f);
-        Destroy(rightWall, 3f);
+        Destroy(leftWall, 5f);
+        Destroy(rightWall, 5f);
     }
 
 
@@ -65,4 +60,8 @@ public class WallGenerator : MonoBehaviour
         return correctList[Random.Range(0, correctList.Count)];
     }
 
+    private int GetRandomOffset()
+    {
+        return Random.Range(-2, 3);
+    }
 }
