@@ -25,6 +25,8 @@ public class WallGenerator : MonoBehaviour
         _lastRightBot = leftStartWall.GetComponent<WallSize>().BotSize;
 
         Generator(new Vector2(0, 0));
+
+        //kekWaitGitCheck;
     }
 
     public void Generator(Vector2 checkerPos)
